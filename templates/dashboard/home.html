@@ -1,0 +1,84 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h2 class="fw-bold">
+        Welcome, {{ user.first_name|default:user.username }}!
+    </h2>
+    <p class="text-muted">Here's your CampusConnect dashboard.</p>
+</div>
+
+<div class="row g-3 mb-4">
+
+    <!-- User Role -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted">Your Role</h6>
+                <h3 class="text-success fw-bold">
+                    {{ user.get_role_display }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted">Course</h6>
+                <h3 class="text-success fw-bold">
+                    {{ user.course|default:"Not set" }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Members -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted">Total Members</h6>
+                <h3 class="text-success fw-bold">
+                    {{ member_count }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Account Information -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h5 class="fw-bold mb-3">Account Information</h5>
+
+        <p>
+            <strong>Username:</strong> {{ user.username }}
+        </p>
+
+        <p>
+            <strong>Email:</strong> {{ user.email|default:"Not set" }}
+        </p>
+
+        <p>
+            <strong>Last Login:</strong>
+            {{ user.last_login|date:"M d, Y" }}
+        </p>
+
+        <a href="{% url 'profile' %}" class="btn btn-success">
+            Edit Profile
+        </a>
+
+        {% if is_admin %}
+            <a href="{% url 'admin_panel' %}"
+               class="btn btn-outline-secondary ms-2">
+                Open Admin Panel
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
